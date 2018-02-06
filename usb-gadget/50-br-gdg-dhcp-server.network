@@ -1,0 +1,11 @@
+[Match]
+Name=br-gdg
+
+[Network]
+DHCPServer=yes
+
+[DHCPServer]
+DefaultLeaseTimeSec=3600
+EmitDNS=no
+EmitNTP=no
+EmitRouter=no

@@ -1,0 +1,6 @@
+[Match]
+Driver=g_ether
+
+[Link]
+MACAddressPolicy=none
+NamePolicy=kernel

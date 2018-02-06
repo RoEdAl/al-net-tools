@@ -1,0 +1,20 @@
+[Unit]
+Description=USB Gadget
+Documentation=http://github.com/ev3dev/ev3-systemd
+Documentation=http://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets
+ConditionPathIsDirectory=/sys/kernel/config/usb_gadget
+ConditionDirectoryNotEmpty=/sys/class/udc
+After=kmod-static-nodes.service
+Wants=network.target
+Before=network.target
+ 
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/etc/conf.d/usb-gadget
+ExecStart=/usr/lib/usb-gadget/usb-gadget.sh up
+ExecStop=/usr/lib/usb-gadget/usb-gadget.sh down
+
+[Install]
+WantedBy=network.target
+Also=serial-getty@ttyGS0.service
