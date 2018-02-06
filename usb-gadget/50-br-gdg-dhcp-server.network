@@ -2,6 +2,7 @@
 Name=br-gdg
 
 [Network]
+Address=10.1.0.1/29
 DHCPServer=yes
 
 [DHCPServer]
