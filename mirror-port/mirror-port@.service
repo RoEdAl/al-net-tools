@@ -1,0 +1,18 @@
+[Unit]
+Description=Mirroring traffic from %I network interface
+Documentation=http://backreference.org/2014/06/17/port-mirroring-with-linux-bridges
+Documentation=http://wiki.linuxfoundation.org/networking/ifb
+BindsTo=sys-subsystem-net-devices-%i.device
+After=sys-subsystem-net-devices-%i.device network.target
+Wants=network.target
+ 
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/etc/conf.d/mirror-port
+EnvironmentFile=-/etc/conf.d/mirror-port-%I
+ExecStart=/usr/lib/mirror-port/mirror-port.sh %I start $MIRROR_PORT
+ExecStop=/usr/lib/mirror-port/mirror-port.sh %I stop $MIRROR_PORT
+
+[Install]
+WantedBy=multi-user.target
