@@ -3,8 +3,8 @@
 ## `usb-gadget`
 
 Configures USB OTG port as composite gadget. There are two configurations.
-First configuration is designed for Windows hosts and exposes one RNDIS network interface.
-Second configuration is designed for Linux hosts and exposes one serial port and one network interface.
+First configuration is designed for Linux hosts and exposes one serial port and one network interface.
+Second configuration is designed for Windows hosts and exposes one RNDIS network interface.
 
 Both network interfaces from first and second configuration are bound to `br-gdg` network bridge.
 
@@ -30,7 +30,7 @@ This is platform-agnostic package ([bash script](usb-gadget/usb-gadget.sh)).
 
 ## `mirror-port`
 
-Installs `mirror-port@` service template which to mirror trafic from specific network interface.
+Installs `mirror-port@` service template which mirrors trafic from specific network interface.
 Destination network interface is specified in configuration file.
 By default destination interface is defined as `br-mrr` bridge (also installed by `mirror-port` package).
 
@@ -42,6 +42,8 @@ This is platform-agnostic package ([bash script](mirror-port/mirror-port.sh)).
 - Reboot.
 - Optionally edit [`/etc/conf.d/mirror-port`](mirror-port/env)
   configuration file to specify destination network infterface.
+  (Instead of `/etc/conf.d/mirror-port` you can edit interface-specific configuration file
+  `/etc/conf.d/mirror-port-<iface>`)
 - Start and/or enable [`mirror-port@iface`](mirror-port/mirror-port@.service) service
   where `iface` is a network interface you want to mirror traffic from. For example:
   `systemctl start mirror-port@eth0`
