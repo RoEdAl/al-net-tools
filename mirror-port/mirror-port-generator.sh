@@ -45,6 +45,7 @@ if [[ -f ${CONF_DIR}/${CONF_PREFIX} ]]; then
     (
 	get_unit_preamble
         cat <<EOF
+Description=Mirroring traffic from %I to ${mirror_port}
 SourcePath=${CONF_DIR}/${CONF_PREFIX}
 BindsTo=sys-subsystem-net-devices-${mirror_port_esc}.device
 After=sys-subsystem-net-devices-${mirror_port_esc}.device
@@ -58,12 +59,13 @@ CONFIGS=(${CONFIGS[@]#${CONF_PREFIX}-})
 
 for iface in ${CONFIGS[*]}; do
     iface_esc=$(${BIN_PREFIX}systemd-escape --template=${SERVICE_NAME} ${iface})
-    mirror_port=$(get_mirror_port $iface) || continue
+    mirror_port=$(get_mirror_port ${iface}) || continue
     mirror_port_esc=$(${BIN_PREFIX}systemd-escape ${mirror_port})
     ${BIN_PREFIX}mkdir -p ${DST_DIR}/${iface_esc}.d
     (
 	get_unit_preamble
         cat <<EOF
+Description=Mirroring traffic from %I to ${mirror_port}
 SourcePath=${CONF_DIR}/${CONF_PREFIX}-${iface}
 BindsTo=sys-subsystem-net-devices-${mirror_port_esc}.device
 After=sys-subsystem-net-devices-${mirror_port_esc}.device
