@@ -2,7 +2,7 @@
 
 pkgname='mirror-port'
 pgkdesc='Network traffic mirroring'
-pkgver='2.2'
+pkgver='2.3'
 pkgrel='1'
 arch=('any')
 license=('BSD')
@@ -25,7 +25,6 @@ source=(
 	'mirror-port@.service'
 	'env'
 )
-
 sha256sums=('8577ca838d5cf6b3e2cab98b598c5336b864fb5bf6a2572ae7b49bf8de658544'
             '3bede1fb911698c3e73329e6ed5871d8204a2e95b230fe6f062ff5de1983b594'
             'db0277ebb6f2a2f777414507f2086a219d0451bf4bcb89cd5f0f8c442c88b07b'
@@ -34,28 +33,27 @@ sha256sums=('8577ca838d5cf6b3e2cab98b598c5336b864fb5bf6a2572ae7b49bf8de658544'
             '827d78b1ed6d58f92a29745774c00d39733225663eb87a3fd45bc7b0505d6269'
             '79a2f747c9e0c937f719a5682c0769dba7a95058912dcbce2e23d3a59fd0ed91'
             'f0478b4337bb9167db9821cf1f894c8037869f0bda0ff55560695ca51d1b8c54'
-            '57a143a28f3620f69700b36a772352a1cecb0be1bea7a60e14ba2e465ad025d9'
+            '2d96d2e00c39b0cfdc5da94d70eea598b28301222caeb785a70d458a98d37eaa'
             '402860b360e4e5a40702b5f490175e01761aa85eabfc943a1091e7fb7774f98e')
 
 package(){
-
 	install -d -m 0755 ${pkgdir}/usr/lib/systemd/network
 	install -p -m 0644 ${srcdir}/25-br-mrr.netdev ${pkgdir}/usr/lib/systemd/network
-        install -p -m 0644 ${srcdir}/50-br-mrr.network ${pkgdir}/usr/lib/systemd/network
+	install -p -m 0644 ${srcdir}/50-br-mrr.network ${pkgdir}/usr/lib/systemd/network
 	install -p -m 0644 ${srcdir}/25-ifb.link ${pkgdir}/usr/lib/systemd/network
 	install -p -m 0644 ${srcdir}/25-ifb.network ${pkgdir}/usr/lib/systemd/network
 
 	install -d -m 0755 ${pkgdir}/usr/lib/systemd/system
 	install -p -m 0644 ${srcdir}/mirror-port@.service ${pkgdir}/usr/lib/systemd/system
   
-        install -d -m 0755 ${pkgdir}/usr/lib/systemd/system-generators
-        install -p -m 0755 ${srcdir}/mirror-port-generator.sh ${pkgdir}/usr/lib/systemd/system-generators/mirror-port-generator
+	install -d -m 0755 ${pkgdir}/usr/lib/systemd/system-generators
+	install -p -m 0755 ${srcdir}/mirror-port-generator.sh ${pkgdir}/usr/lib/systemd/system-generators/mirror-port-generator
 
 	install -d -m 0755 ${pkgdir}/etc/modules-load.d
 	install -p -m 0644 ${srcdir}/ifb-module.conf ${pkgdir}/etc/modules-load.d/ifb.conf
 
 	install -d -m 0755 ${pkgdir}/etc/modprobe.d
-        install -p -m 0644 ${srcdir}/ifb-params.conf ${pkgdir}/etc/modprobe.d/ifb.conf
+	install -p -m 0644 ${srcdir}/ifb-params.conf ${pkgdir}/etc/modprobe.d/ifb.conf
 
 	install -d -m 0755 ${pkgdir}/usr/lib/mirror-port
 	install -p -m 0755 ${srcdir}/mirror-port.sh ${pkgdir}/usr/lib/mirror-port

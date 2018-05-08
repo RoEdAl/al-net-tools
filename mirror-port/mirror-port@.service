@@ -9,8 +9,8 @@ Wants=network.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-EnvironmentFile=/etc/conf.d/mirror-port
-EnvironmentFile=-/etc/conf.d/mirror-port-%I
+EnvironmentFile=/etc/conf.d/%p
+EnvironmentFile=-/etc/conf.d/%p-%I
 ExecStart=/usr/lib/mirror-port/mirror-port.sh %I start $MIRROR_PORT
 ExecStop=/usr/lib/mirror-port/mirror-port.sh %I stop $MIRROR_PORT
 
