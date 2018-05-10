@@ -4,13 +4,13 @@ Installs `mirror-port@` service template which mirrors trafic from specific netw
 Destination network interface is specified in configuration file.
 By default destination interface is defined as `br-mrr` bridge (also installed by `mirror-port` package).
 
-This is platform-agnostic package ([bash script](mirror-port/mirror-port.sh)).
+This is platform-agnostic package ([bash script](mirror-port.sh)).
 
 ## Installation
 
 - Build and install `mirror-port` package.
 - Reboot.
-- Optionally edit [`/etc/conf.d/mirror-port`](mirror-port/env)
+- Optionally edit [`/etc/conf.d/mirror-port`](env)
   configuration file to specify destination network infterface.
   (Instead of `/etc/conf.d/mirror-port` you can edit interface-specific configuration file
   `/etc/conf.d/mirror-port-<iface>`).
@@ -23,7 +23,6 @@ This is platform-agnostic package ([bash script](mirror-port/mirror-port.sh)).
 ----
 
 **Tip**: In order to  mirror traffic from e.g. `br-gdg` interface use `systemd-escape` tool:
-
 ````
 systemctl start mirror-port@$(systemd-escape br-gdg)
 ````
