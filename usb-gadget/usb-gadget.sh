@@ -46,8 +46,8 @@ gadget_up() {
     echo "0x${PID:-0104}" > ${g}/idProduct
     echo "0x${DEVICE_RELEASE:-0100}" > ${g}/bcdDevice
     mkdir ${g}/strings/0x409
-    echo "${MANUFACTURER:-Unknown manufacturer}" > ${g}/strings/0x409/manufacturer
-    echo "${PRODUCT:-Unknown USB gadget}" > ${g}/strings/0x409/product
+    echo "${MANUFACTURER:-Manufacurer name}" > ${g}/strings/0x409/manufacturer
+    echo "${PRODUCT:-Product name}" > ${g}/strings/0x409/product
     echo "${SERIAL:-fedcba9876543210}" > ${g}/strings/0x409/serialnumber
 
     # Create 2 configurations. The first will be CDC. The second will be RNDIS.
@@ -68,7 +68,7 @@ gadget_up() {
     # Create the CDC function
 
     mkdir ${g}/functions/ncm.usb0
-    echo "${NCM_HOST_ADDR:-6e:10:dc:5e:85:cc}" > ${g}/functions/ncm.usb0/host_addr
+    echo "${NCM_HOST_ADDR:-06:64:bd:62:8e:e9}" > ${g}/functions/ncm.usb0/host_addr
 
     # config 2 is for RNDIS
 
@@ -90,7 +90,7 @@ gadget_up() {
     # Create the RNDIS function, including the Microsoft-specific bits
 
     mkdir ${g}/functions/rndis.usb0
-    echo "${RNDIS_HOST_ADDR:-02:3e:9e:20:61:45}" > ${g}/functions/rndis.usb0/host_addr
+    echo "${RNDIS_HOST_ADDR:-b2:aa:41:d8:4d:50}" > ${g}/functions/rndis.usb0/host_addr
     echo "${ms_compat_id}" > ${g}/functions/rndis.usb0/os_desc/interface.rndis/compatible_id
     echo "${ms_subcompat_id}" > ${g}/functions/rndis.usb0/os_desc/interface.rndis/sub_compatible_id
 

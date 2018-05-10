@@ -5,8 +5,7 @@ declare -r BIN_PREFIX=/usr/bin/
 declare -r SERVICE_NAME=usb-gadget@.service
 declare -r SERIAL_GETTY_SERVICE_NAME=serial-getty@ttyGS0.service
 declare -r DROP_IN_FNAME=default-instance.conf
-#declare -r SYS_UDC_DIR=/sys/class/udc
-declare -r SYS_UDC_DIR=gen-src
+declare -r SYS_UDC_DIR=/sys/class/udc
 
 declare -r DST_DIR=$1
 if [ -z "${DST_DIR}" ]; then
