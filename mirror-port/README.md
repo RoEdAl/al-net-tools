@@ -15,7 +15,7 @@ This is platform-agnostic package ([bash script](mirror-port.sh)).
   (Instead of `/etc/conf.d/mirror-port` you can edit interface-specific configuration file
   `/etc/conf.d/mirror-port-<iface>`).
   Alternatively you can bind another network interface to `br-mrr` bridge.
-- Start and/or enable [`mirror-port@iface`](mirror-port/mirror-port@.service) service
+- Start and/or enable [`mirror-port@iface`](mirror-port@.service) service
   where `iface` is a network interface you want to mirror traffic from. For example:
   `systemctl start mirror-port@eth0`.
 - Watch mirrored packets on destination network interface: `tcpdump -e -v -n -i br-mrr`.
