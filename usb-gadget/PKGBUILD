@@ -1,6 +1,6 @@
 pkgbase='usb-gadget'
 pkgname=('usb-gadget' 'usb-gadget-dhcp-server' 'usb-gadget-dhcp-client')
-pkgver='1.3'
+pkgver='2.0'
 pkgrel='1'
 arch=('any')
 license=('BSD')
@@ -12,10 +12,11 @@ source=(
 	'50-br-gdg-dhcp-server.network'
 	'50-br-gdg-dhcp-client.network'
 	'usb-gadget.sh'
-	'usb-gadget.service'
+	'usb-gadget@.service'
+	'usb-gadget-generator.sh'
 	'libcomposite.conf'
-	'serial-ttyGS0-part-of.conf'
 	'env'
+	'51-udc-alias.rules'
 )
 
 sha256sums=('0f81a3071528fd7c565c24caec11c4dfcae5d7647d42cc966c222898d3db5e09'
@@ -42,9 +43,8 @@ package_usb-gadget(){
 	install -p -m 0644 ${srcdir}/25-g-ether.link ${pkgdir}/usr/lib/systemd/network
 	install -p -m 0644 ${srcdir}/25-g-ether.network ${pkgdir}/usr/lib/systemd/network
 
-	install -d -m 0755 ${pkgdir}/usr/lib/systemd/system/serial-getty@ttyGS0.service.d
-	install -p -m 0644 ${srcdir}/usb-gadget.service ${pkgdir}/usr/lib/systemd/system
-	install -p -m 0644 ${srcdir}/serial-ttyGS0-part-of.conf ${pkgdir}/usr/lib/systemd/system/serial-getty@ttyGS0.service.d/part-of.conf
+	install -d -m 0755 ${pkgdir}/usr/lib/systemd/system
+	install -p -m 0644 ${srcdir}/usb-gadget@.service ${pkgdir}/usr/lib/systemd/system
 
 	install -d -m 0755 ${pkgdir}/usr/lib/usb-gadget
 	install -p -m 0755 ${srcdir}/usb-gadget.sh ${pkgdir}/usr/lib/usb-gadget
@@ -54,6 +54,12 @@ package_usb-gadget(){
 
 	install -d -m 0755 ${pkgdir}/etc/conf.d
 	install -p -m 0644 ${srcdir}/env ${pkgdir}/etc/conf.d/usb-gadget
+
+	install -d -m 0755 ${pkgdir}/usr/lib/systemd/system-generators
+	install -p -m 0755 ${srcdir}/usb-gadget-generator.sh ${pkgdir}/usr/lib/systemd/system-generators/usb-gadget-generator
+
+	install -d -m 0755 ${pkgdir}/usr/lib/udev/rules.d
+	install -m 0644 51-udc-alias.rules ${pkgdir}/usr/lib/udev/rules.d
 }
 
 package_usb-gadget-dhcp-server(){

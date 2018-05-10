@@ -1,27 +1,29 @@
 #!/bin/bash -e
 
 # command line parameters
-command="$1" # "up" or "down"
+declare -r command="$1"   # "up" or "down"
+declare udc_device=$2  # UDC device
 
-# UDC
-udc_device=$(ls /sys/class/udc)
+if [ -z "${udc_device}" ]; then
+    udc_device=$(ls /sys/class/udc)
+fi 
 
-g="/sys/kernel/config/usb_gadget/${udc_device}-conf"
+declare -r g="/sys/kernel/config/usb_gadget/${udc_device}-conf"
 
 gadget_up() {
-    usb_ver='0x0200' # USB 2.0
-    dev_class='2'    # Communications
+    local usb_ver='0x0200' # USB 2.0
+    local dev_class='2'    # Communications
 
-    attr='0xC0' # Self powered
-    pwr='1'     # 2mA
+    local attr='0xC0' # Self powered
+    local pwr='1'     # 2mA
 
-    cfg1='CDC & Serial'
-    cfg2='RNDIS'
+    local cfg1='CDC & Serial'
+    local cfg2='RNDIS'
 
-    ms_vendor_code='0xcd'     # Microsoft
-    ms_qw_sign='MSFT100'      # also Microsoft
-    ms_compat_id='RNDIS'      # matches Windows RNDIS Drivers
-    ms_subcompat_id='5162001' # matches Windows RNDIS 6.0+ Driver
+    local ms_vendor_code='0xcd'     # Microsoft
+    local ms_qw_sign='MSFT100'      # also Microsoft
+    local ms_compat_id='RNDIS'      # matches Windows RNDIS Drivers
+    local ms_subcompat_id='5162001' # matches Windows RNDIS 6.0+ Driver
 
     if [ -d ${g} ]; then
         if [ "$(cat ${g}/UDC)" != "" ]; then
@@ -149,8 +151,7 @@ down)
     gadget_down
     ;;
 *)
-    echo "Usage: usb-gadget.sh up|down"
+    echo "Usage: usb-gadget.sh up|down [<udc-dev>]"
     exit 1
     ;;
 esac
-

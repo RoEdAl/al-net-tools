@@ -1,0 +1,5 @@
+# USB Gadget
+SUBSYSTEM=="udc",\
+    ACTION=="add", \
+    TAG+="systemd", \
+    ENV{SYSTEMD_ALIAS}="/sys/subsystem/udc/devices/%k"
