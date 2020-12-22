@@ -2,7 +2,7 @@
 
 pkgname='mirror-port'
 pgkdesc='Network traffic mirroring'
-pkgver='2.3'
+pkgver='2.4'
 pkgrel='1'
 arch=('any')
 license=('BSD')
@@ -31,7 +31,7 @@ sha256sums=('8577ca838d5cf6b3e2cab98b598c5336b864fb5bf6a2572ae7b49bf8de658544'
             'f0a42c2a4e2535955eb200e4177533ab69c770d327613a7c7323833764740792'
             '3f784d26d29c72e42ce66e9fdeff2413c01aac828a9a0a5c0e2f8a397eabd107'
             '827d78b1ed6d58f92a29745774c00d39733225663eb87a3fd45bc7b0505d6269'
-            '79a2f747c9e0c937f719a5682c0769dba7a95058912dcbce2e23d3a59fd0ed91'
+            '5edd6419dcba7c48b4669ba43d4dbfbbebc2d5c4656c76cdc68f017e3dd4226b'
             'f0478b4337bb9167db9821cf1f894c8037869f0bda0ff55560695ca51d1b8c54'
             '2d96d2e00c39b0cfdc5da94d70eea598b28301222caeb785a70d458a98d37eaa'
             '402860b360e4e5a40702b5f490175e01761aa85eabfc943a1091e7fb7774f98e')

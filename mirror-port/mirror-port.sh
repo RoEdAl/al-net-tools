@@ -17,15 +17,13 @@ function mirror_start() {
     # ingress
     tc qdisc add dev ${SRCIFACE} ingress
     tc filter add dev ${SRCIFACE} parent ffff: \
-          protocol all \
-          u32 match u8 0 0 \
+          matchall skip_hw \
           action mirred egress mirror dev ${DSTIFACE}
 
     # egress
     tc qdisc add dev $SRCIFACE handle 1: root prio
     tc filter add dev $SRCIFACE parent 1: \
-          protocol all \
-          u32 match u8 0 0 \
+          matchall skip_hw \
           action mirred egress mirror dev ${DSTIFACE}
 }
 
