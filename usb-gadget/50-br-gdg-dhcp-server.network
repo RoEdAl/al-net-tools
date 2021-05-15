@@ -2,11 +2,15 @@
 Name=br-gdg
 
 [Network]
-Address=10.1.0.1/29
+Address=10.1.0.2/30
 DHCPServer=yes
+Gateway=10.1.0.1
+DNS=10.1.0.1
+LinkLocalAddressing=no
 
 [DHCPServer]
-DefaultLeaseTimeSec=3600
+DefaultLeaseTimeSec=86400
 EmitDNS=no
 EmitNTP=no
 EmitRouter=no
+EmitTimezone=no

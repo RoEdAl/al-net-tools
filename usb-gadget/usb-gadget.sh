@@ -28,10 +28,9 @@ gadget_up() {
             echo "Gadget is already up."
             exit 1
         fi
-        echo "Cleaning up old directory..."
+        echo 'Cleaning up old directory'
         gadget_down
     fi
-    echo "Setting up gadget..."
 
     # Create a new gadget
 
@@ -48,59 +47,58 @@ gadget_up() {
     echo "${PRODUCT:-Unknown USB gadget}" > ${g}/strings/0x409/product
     echo "${SERIAL:-fedcba9876543210}" > ${g}/strings/0x409/serialnumber
 
-    # Create 2 configurations. The first will be CDC. The second will be RNDIS.
-    # Thanks to os_desc, Windows should use the second configuration.
+    # function - serial
+    if [ ${GADGET_SERIAL:-0} -eq 1 ]; then
+        mkdir ${g}/functions/acm.usb0
+    fi
 
-    # config 1 is for CDC
+    # function - network - Linux
+    mkdir ${g}/functions/${GADGET_NET_IFACE_TYPE:-ncm}.usb0
+    echo "${GDG1_HOST_ADDR:-6e:10:dc:5e:85:cc}" > ${g}/functions/${GADGET_NET_IFACE_TYPE:-ncm}.usb0/host_addr
 
+    # function - network - RNDIS (Windows)
+    if [ ${GADGET_2ND_CONFIG:-1} -eq 1 ]; then
+        mkdir ${g}/functions/rndis.usb0
+        echo "${GDG2_HOST_ADDR:-02:3e:9e:20:61:45}" > ${g}/functions/rndis.usb0/host_addr
+        echo "${ms_compat_id}" > ${g}/functions/rndis.usb0/os_desc/interface.rndis/compatible_id
+        echo "${ms_subcompat_id}" > ${g}/functions/rndis.usb0/os_desc/interface.rndis/sub_compatible_id
+    fi
+
+    # config 1
     mkdir ${g}/configs/c.1
     echo "${attr}" > ${g}/configs/c.1/bmAttributes
     echo "${pwr}" > ${g}/configs/c.1/MaxPower
     mkdir ${g}/configs/c.1/strings/0x409
     echo "${cfg1}" > ${g}/configs/c.1/strings/0x409/configuration
 
-    # Create the serial function
+    # config 2
+    if [ ${GADGET_2ND_CONFIG:-1} -eq 1 ]; then
+        mkdir ${g}/configs/c.2
+        echo "${attr}" > ${g}/configs/c.2/bmAttributes
+        echo "${pwr}" > ${g}/configs/c.2/MaxPower
+        mkdir ${g}/configs/c.2/strings/0x409
+        echo "${cfg2}" > ${g}/configs/c.2/strings/0x409/configuration
 
-    mkdir ${g}/functions/acm.usb0
+        # On Windows 7 and later, the RNDIS 5.1 driver would be used by default,
+        # but it does not work very well. The RNDIS 6.0 driver works better. In
+        # order to get this driver to load automatically, we have to use a
+        # Microsoft-specific extension of USB.
 
-    # Create the CDC function
+        echo '1' > ${g}/os_desc/use
+        echo "${ms_vendor_code}" > ${g}/os_desc/b_vendor_code
+        echo "${ms_qw_sign}" > ${g}/os_desc/qw_sign
+    fi
 
-    mkdir ${g}/functions/ncm.usb0
-    echo "${NCM_HOST_ADDR:-6e:10:dc:5e:85:cc}" > ${g}/functions/ncm.usb0/host_addr
+    # Link everything
+    [ -d ${g}/functions/acm.usb0 ] && ln -s ${g}/functions/acm.usb0 ${g}/configs/c.1
+    ln -s ${g}/functions/${GADGET_NET_IFACE_TYPE:-ncm}.usb0 ${g}/configs/c.1
+    if [ -d ${g}/configs/c.2 ]; then
+        ln -s ${g}/functions/rndis.usb0 ${g}/configs/c.2
+        ln -s ${g}/configs/c.2 ${g}/os_desc
+    fi
 
-    # config 2 is for RNDIS
-
-    mkdir ${g}/configs/c.2
-    echo "${attr}" > ${g}/configs/c.2/bmAttributes
-    echo "${pwr}" > ${g}/configs/c.2/MaxPower
-    mkdir ${g}/configs/c.2/strings/0x409
-    echo "${cfg2}" > ${g}/configs/c.2/strings/0x409/configuration
-
-    # On Windows 7 and later, the RNDIS 5.1 driver would be used by default,
-    # but it does not work very well. The RNDIS 6.0 driver works better. In
-    # order to get this driver to load automatically, we have to use a
-    # Microsoft-specific extension of USB.
-
-    echo "1" > ${g}/os_desc/use
-    echo "${ms_vendor_code}" > ${g}/os_desc/b_vendor_code
-    echo "${ms_qw_sign}" > ${g}/os_desc/qw_sign
-
-    # Create the RNDIS function, including the Microsoft-specific bits
-
-    mkdir ${g}/functions/rndis.usb0
-    echo "${RNDIS_HOST_ADDR:-02:3e:9e:20:61:45}" > ${g}/functions/rndis.usb0/host_addr
-    echo "${ms_compat_id}" > ${g}/functions/rndis.usb0/os_desc/interface.rndis/compatible_id
-    echo "${ms_subcompat_id}" > ${g}/functions/rndis.usb0/os_desc/interface.rndis/sub_compatible_id
-
-    # Link everything up and bind the USB device
-
-    ln -s ${g}/functions/acm.usb0 ${g}/configs/c.1
-    ln -s ${g}/functions/ncm.usb0 ${g}/configs/c.1
-    ln -s ${g}/functions/rndis.usb0 ${g}/configs/c.2
-    ln -s ${g}/configs/c.2 ${g}/os_desc
-    
+    # Bind USB device    
     echo "${udc_device}" > ${g}/UDC
-    echo "Done."
 }
 
 gadget_down() {
@@ -108,24 +106,22 @@ gadget_down() {
         echo "Gadget is already down."
         exit 1
     fi
-    echo "Taking down gadget..."
 
     # Have to unlink and remove directories in reverse order.
     # Checks allow to finish takedown after error.
 
     if [ "$(cat ${g}/UDC)" != "" ]; then
-        echo "" > ${g}/UDC
+        echo '' > ${g}/UDC
     fi
 
-    rm -f ${g}/os_desc/c.2
-    rm -f ${g}/configs/c.2/rndis.usb0
+    [ -d ${g}/configs/c.1  ] && find ${g}/configs/c.1 -maxdepth 1 -name *.usb0 -type l -exec rm -f {} +
 
-    rm -f ${g}/configs/c.1/ncm.usb0
-    rm -f ${g}/configs/c.1/acm.usb0
+    if [ -d ${g}/os_desc/c.2 ]; then
+        rm -f ${g}/os_desc/c.2
+	find ${g}/configs/c.2 -maxdepth 1 -name *.usb0 -type l -exec rm -f {} +
+    fi
 
-    [ -d ${g}/functions/rndis.usb0 ] && rmdir ${g}/functions/rndis.usb0
-    [ -d ${g}/functions/ncm.usb0 ] && rmdir ${g}/functions/ncm.usb0
-    [ -d ${g}/functions/acm.usb0 ] && rmdir ${g}/functions/acm.usb0
+    find ${g}/functions -maxdepth 1 -name *.usb0 -type d -exec rmdir {} +
 
     [ -d ${g}/configs/c.2/strings/0x409 ] && rmdir ${g}/configs/c.2/strings/0x409
     [ -d ${g}/configs/c.2 ] && rmdir ${g}/configs/c.2
@@ -136,8 +132,6 @@ gadget_down() {
     [ -d ${g}/strings/0x409 ] && rmdir ${g}/strings/0x409
 
     rmdir ${g}
-
-    echo "Done."
 }
 
 case ${command} in
