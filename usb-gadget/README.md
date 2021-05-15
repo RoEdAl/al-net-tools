@@ -22,7 +22,7 @@ This is platform-agnostic package ([bash script](usb-gadget.sh)).
 
 ## Confirmed to work on:
 
-- Raspberry Pi Zero,
+- Raspberry Pi Zero/4B,
 - Wandboard Q,
 - A10/A20 oLinuXino Lime,
 - Orange Pi Zero (Plus),
@@ -30,9 +30,31 @@ This is platform-agnostic package ([bash script](usb-gadget.sh)).
 
 ## RouterOS (MikroTik) configuration:
 
-Required options to make USB dadget visible by RouterOS (as `lte*` device):
+Required configuration to make USB dadget visible by *RouterOS*:
 
-* `VID=12d1`
-* `PID=14db`
-* `GADGET_2ND_CONFIG=0`
-* `GADGET_NET_IFACE_TYPE=ecm`
+* `VID=12d1`,
+* `PID=14db`,
+* `GADGET_2ND_CONFIG=0`,
+* `GADGET_NET_IFACE_TYPE=ecm`.
+
+USB 12d1:14db = *Huawei E8372*.\
+Helpful package: `usb-gadget-dhcp-server`.\
+Also consider adding `lte*` device to **LAN** zone (group).
+
+See also:
+
+* [MikroTik forum: Raspberry PI Zero and RouterOS, usb interface, lte](https://forum.mikrotik.com/viewtopic.php?t=131188),
+* [MikroTik documentation: Manual:Peripherals](https://wiki.mikrotik.com/wiki/Manual:Peripherals).
+
+----
+
+```
+[admin@XXX] > /interface lte print
+Flags: X - disabled, R - running
+ 0  R name="lte1" mtu=1500 mac-address=6E:10:DC:5E:85:CC
+
+[admin@XXX] > /system resource usb print
+ # DEVICE VENDOR                                              NAME                                             SPEED
+ 0 1-0    Linux 3.3.5 ehci_hcd                                RB400 EHCI                                       480
+ 1 1-1    Wandboard                                           Q4                                               480
+```
