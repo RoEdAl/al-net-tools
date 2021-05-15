@@ -27,3 +27,12 @@ This is platform-agnostic package ([bash script](usb-gadget.sh)).
 - A10/A20 oLinuXino Lime,
 - Orange Pi Zero (Plus),
 - NanoPi Neo/Neo2.
+
+## RouterOS (MikroTik) configuration:
+
+Required options to make USB dadget visible by RouterOS (as `lte*` device):
+
+* `VID=12d1`
+* `PID=14db`
+* `GADGET_2ND_CONFIG=0`
+* `GADGET_NET_IFACE_TYPE=ecm`
