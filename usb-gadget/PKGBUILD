@@ -1,6 +1,6 @@
 pkgbase='usb-gadget'
-pkgname=('usb-gadget' 'usb-gadget-dhcp-server' 'usb-gadget-dhcp-client')
-pkgver='1.4'
+pkgname=('usb-gadget' 'usb-gadget-dhcp-server' 'usb-gadget-dhcp-server-bare' 'usb-gadget-dhcp-client')
+pkgver='1.5'
 pkgrel='1'
 arch=('any')
 license=('BSD')
@@ -10,6 +10,7 @@ source=(
 	'25-g-ether.link'
 	'25-g-ether.network'
 	'50-br-gdg-dhcp-server.network'
+	'50-br-gdg-dhcp-server-bare.network'
 	'50-br-gdg-dhcp-client.network'
 	'usb-gadget.sh'
 	'usb-gadget.service'
@@ -22,12 +23,13 @@ sha256sums=('0f81a3071528fd7c565c24caec11c4dfcae5d7647d42cc966c222898d3db5e09'
             '3387414165f97243fbb330e0090198779dadd408dbc1a1c41c2440c9e562dbca'
             'd02efd9cd1f63174092db143109e3d123b8ef9f231eb7201e379e6bd6f06de7a'
             'd1f08650224ecaf79eb5dbf1ffd521a393695ceb25994434ac41da84362c9150'
+            '524c560adb140784535b4e7d722ffdcd6cb70af5ecf5987d92b74a76d4497ff3'
             '5a08255faeb2397a2bedd120aa193173d47acd48aedae8de9a89ee0d21da465e'
             'ba43f9b4244dd3009959eca06cff72c0fba8273ed6345e12445743607d040a40'
             '6f3e7d93a94f96ae004896b2cec0d867ecf28ceb5f4146e593997054d9461875'
             '87b905a9554a9176a754535326565e4fc5fba9a9e8e9de5cb657e156f9b4dbc2'
             '3b38b6ffa42bd8de199b7f68c182384c152bc8ede42c64cdc2a5f4b1bb7a853d'
-            '12606aed7887246e61759da914b9e78605b6d43ff4003ec9a1db0883f2bb3a13')
+            '92c8bfdf523bb8bc1abfc15ab56fbc80016a4c5e6652675080c927c7f270f942')
 
 package_usb-gadget(){
 	backup=(
@@ -64,13 +66,23 @@ package_usb-gadget(){
 }
 
 package_usb-gadget-dhcp-server(){
-	pgkdesc='UDC configuration - DHCP server'
+	pgkdesc='UDC configuration - simple DHCP server'
 	depends=('usb-gadget')
 	provides=('usb-gadget-dhcp')
 	conflicts=('usb-gadget-dhcp')
 
 	install -d -m 0755 ${pkgdir}/usr/lib/systemd/network
 	install -p -m 0644 ${srcdir}/50-br-gdg-dhcp-server.network ${pkgdir}/usr/lib/systemd/network/50-br-gdg.network
+}
+
+package_usb-gadget-dhcp-server-bare(){
+	pgkdesc='UDC configuration - bare DHCP server'
+	depends=('usb-gadget')
+	provides=('usb-gadget-dhcp')
+	conflicts=('usb-gadget-dhcp')
+
+        install -d -m 0755 ${pkgdir}/usr/lib/systemd/network
+        install -p -m 0644 ${srcdir}/50-br-gdg-dhcp-server-bare.network ${pkgdir}/usr/lib/systemd/network/50-br-gdg.network
 }
 
 package_usb-gadget-dhcp-client(){

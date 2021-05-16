@@ -1,0 +1,14 @@
+[Match]
+Name=br-gdg
+
+[Network]
+Address=10.1.0.2/30
+DHCPServer=yes
+LinkLocalAddressing=no
+
+[DHCPServer]
+DefaultLeaseTimeSec=86400
+EmitDNS=no
+EmitNTP=no
+EmitRouter=no
+EmitTimezone=no
