@@ -38,23 +38,20 @@ Required configuration to make USB dadget visible by *RouterOS*:
 * `GADGET_NET_IFACE_TYPE=ecm`.
 
 USB 12d1:14db = *Huawei E8372*.\
-Helpful package: `usb-gadget-dhcp-server`.\
-Also consider adding `lte*` device to **LAN** zone (group).
+Helpful package: [`usb-gadget-dhcp-server-bare`](50-br-gdg-dhcp-server-bare.network).\
+Also consider adding `lte*` device to **LAN** interface list.
 
 See also:
 
 * [MikroTik forum: Raspberry PI Zero and RouterOS, usb interface, lte](https://forum.mikrotik.com/viewtopic.php?t=131188),
 * [MikroTik documentation: Manual:Peripherals](https://wiki.mikrotik.com/wiki/Manual:Peripherals).
 
-----
-
 ```
-[admin@XXX] > /interface lte print
-Flags: X - disabled, R - running
- 0  R name="lte1" mtu=1500 mac-address=6E:10:DC:5E:85:CC
+[admin@xxx] > /system resource usb print detail 
+ 0 device="1-0" vendor="Linux 3.3.5 ehci_hcd" name="RB400 EHCI" serial-number="rb400_usb" vendor-id="0x1d6b" device-id="0x0002" speed="480" ports=1 usb-version=" 2.00" 
+ 1 device="1-1" vendor="Wandboard" name="Q4" serial-number="20210515075651" vendor-id="0x12d1" device-id="0x14db" speed="480" usb-version=" 2.00" 
 
-[admin@XXX] > /system resource usb print
- # DEVICE VENDOR                                              NAME                                             SPEED
- 0 1-0    Linux 3.3.5 ehci_hcd                                RB400 EHCI                                       480
- 1 1-1    Wandboard                                           Q4                                               480
+[admin@xxx] > /interface lte print detail 
+Flags: X - disabled, R - running 
+ 0  R name="lte1" mtu=1500 mac-address=6E:10:DC:5E:85:CC
 ```
