@@ -55,3 +55,9 @@ See also:
 Flags: X - disabled, R - running 
  0  R name="lte1" mtu=1500 mac-address=6E:10:DC:5E:85:CC
 ```
+
+# Additional information
+
+* [ev3-systemd](https://github.com/ev3dev/ev3-systemd)
+* [Raspberry Pi Zero as Multiple USB Gadgets](https://irq5.io/2016/12/22/raspberry-pi-zero-as-multiple-usb-gadgets/)
+* Modern USB gadget on Linux & how to integrate it with systemd - [Part 1](https://www.collabora.com/news-and-blog/blog/2019/02/18/modern-usb-gadget-on-linux-and-how-to-integrate-it-with-systemd-part-1/), [Part 2](https://www.collabora.com/news-and-blog/blog/2019/03/27/modern-usb-gadget-on-linux-and-how-to-integrate-it-with-systemd-part-2/)
