@@ -37,7 +37,7 @@ package_usb-gadget(){
         	'etc/conf.d/usb-gadget'
 	)
 	pgkdesc='UDC configuration'
-	optdepends=('usb-gadget-dhcp-server' 'usb-gadget-dhcp-client')
+	optdepends=('usb-gadget-dhcp-server' 'usb-gadget-dhcp-server-bare' 'usb-gadget-dhcp-client')
 
 	install -d -m 0755 ${pkgdir}/usr/lib/systemd/network
 	install -p -m 0644 ${srcdir}/25-br-gdg.netdev ${pkgdir}/usr/lib/systemd/network
