@@ -1,6 +1,6 @@
 pkgbase='usb-gadget'
 pkgname=('usb-gadget' 'usb-gadget-dhcp-server' 'usb-gadget-dhcp-server-bare' 'usb-gadget-dhcp-client')
-pkgver='1.5'
+pkgver='1.6'
 pkgrel='1'
 arch=('any')
 license=('BSD')
@@ -26,7 +26,7 @@ sha256sums=('0f81a3071528fd7c565c24caec11c4dfcae5d7647d42cc966c222898d3db5e09'
             '524c560adb140784535b4e7d722ffdcd6cb70af5ecf5987d92b74a76d4497ff3'
             '5a08255faeb2397a2bedd120aa193173d47acd48aedae8de9a89ee0d21da465e'
             'ba43f9b4244dd3009959eca06cff72c0fba8273ed6345e12445743607d040a40'
-            '6f3e7d93a94f96ae004896b2cec0d867ecf28ceb5f4146e593997054d9461875'
+            'a8ed5a5c39b2c2aebfcd1af3a0105cc21d2719585791c7a885dcf804aba81a65'
             '87b905a9554a9176a754535326565e4fc5fba9a9e8e9de5cb657e156f9b4dbc2'
             '3b38b6ffa42bd8de199b7f68c182384c152bc8ede42c64cdc2a5f4b1bb7a853d'
             '92c8bfdf523bb8bc1abfc15ab56fbc80016a4c5e6652675080c927c7f270f942')
